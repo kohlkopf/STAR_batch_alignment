@@ -1,0 +1,12 @@
+!#/bin/bash
+
+for i in $(ls /projects/bgmp/shared/2017_sequencing_trimmed | sed 's/.\{15\}$//' | sort -u);
+do
+        STAR --genomeDir Genome_Index \
+        --readFilesIn /projects/bgmp/shared/2017_sequencing_trimmed/${i}_R1_001.1.fq.gz /projects/bgmp/shared/2017_sequencing_trimmed/${i}_R2_001.2.fq.gz \
+        --runThreadN 28 --outFileNamePrefix Aligned/$i. \
+        --outSAMtype BAM SortedByCoordinate \
+        --quantMode GeneCounts \
+        --sjdbGTFfile /projects/bgmp/shared/yu_lab/musAnnot/Mus_musculus.GRCm38.90.gtf \
+        --readFilesCommand zcat ;
+done
